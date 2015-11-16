@@ -53,40 +53,27 @@ extension UIColor {
 //}
 
 extension UILabel {
-    private func setText(text: String?, animated: Bool) {
-        let duration: NSTimeInterval = 1.0
+    private func setTextAnimated(text: String?) {
+        let duration: NSTimeInterval = 0.3
 
+        // Could be cleaner
         UIView.animateWithDuration(
-            duration * 0.2,
+            duration * 0.4,
             animations: { () -> Void in
                 self.alpha = 0.0
             },
             completion: { (_) -> Void in
+
                 self.text = text
-                UIView.animateWithDuration(duration * 0.2, delay: duration * 0.8, options: UIViewAnimationOptions(), animations: { () -> Void in
-                    self.alpha = 1.0
+
+                UIView.animateWithDuration(
+                    duration * 0.4,
+                    delay: duration * 0.2,
+                    options: UIViewAnimationOptions(),
+                    animations: { () -> Void in
+                        self.alpha = 1.0
                     }, completion: nil)
         })
-
-
-//        UIView.animateKeyframesWithDuration(
-//            duration,
-//            delay: 0,
-//            options: .BeginFromCurrentState,
-//            animations: { () -> Void in
-//                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.4, animations: { () -> Void in
-//                    self.alpha = 0.0
-//                })
-//                UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0, animations: { () -> Void in
-//                    UIView.performWithoutAnimation({ () -> Void in
-//                        self.text = text
-//                    })
-//                })
-//                UIView.addKeyframeWithRelativeStartTime(0.6, relativeDuration: 0.4, animations: { () -> Void in
-//                    self.alpha = 1.0
-//                })
-//            },
-//            completion: nil)
     }
 }
 
@@ -280,7 +267,7 @@ public class LoadingButton: UIControl {
     }
 
     private func setUpTitleLabel() {
-
+        titleLabel.userInteractionEnabled = true
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .Center
     }
@@ -359,9 +346,7 @@ public class LoadingButton: UIControl {
         let image = images[state] ?? images[.Normal]
 
         if titleLabel.text != text {
-//            titleLabel.fadeTransition(2)
-            titleLabel.text = text
-            titleLabel.setText(text, animated: true)
+            titleLabel.setTextAnimated(text)
         }
         titleLabel.textColor = textColor
 
