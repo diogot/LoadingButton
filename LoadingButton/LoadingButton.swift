@@ -59,6 +59,8 @@ extension UILabel {
         // Could be cleaner
         UIView.animateWithDuration(
             duration * 0.4,
+            delay: 0.0,
+            options: .BeginFromCurrentState,
             animations: { () -> Void in
                 self.alpha = 0.0
             },
@@ -69,7 +71,7 @@ extension UILabel {
                 UIView.animateWithDuration(
                     duration * 0.4,
                     delay: duration * 0.2,
-                    options: UIViewAnimationOptions(),
+                    options: .BeginFromCurrentState,
                     animations: { () -> Void in
                         self.alpha = 1.0
                     }, completion: nil)
@@ -130,7 +132,6 @@ public class LoadingButton: UIControl {
         setUpSubviews()
 
         titleLabel.text = "Placeholder"
-        userInteractionEnabled = true
     }
 
     private func setUpSubviews() {
@@ -187,6 +188,7 @@ public class LoadingButton: UIControl {
 
     private func createContentView() -> UIView {
         let contentView = UIView();
+        contentView.userInteractionEnabled = false
 
         setUpTitleLabel()
         contentView.addSubview(titleLabel)
@@ -267,7 +269,7 @@ public class LoadingButton: UIControl {
     }
 
     private func setUpTitleLabel() {
-        titleLabel.userInteractionEnabled = true
+        titleLabel.userInteractionEnabled = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .Center
     }
@@ -317,23 +319,26 @@ public class LoadingButton: UIControl {
     }
 
     override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
-        updateWithTouch(touch, ended: false)
+        updateWithTouch(touch)
         return super.beginTrackingWithTouch(touch, withEvent: event)
     }
 
     override public func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
-        updateWithTouch(touch, ended: false)
+        updateWithTouch(touch)
         return super.continueTrackingWithTouch(touch, withEvent: event)
     }
 
     override public func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
-        updateWithTouch(touch!, ended: true)
+        updateWithTouch(touch!)
         return super.endTrackingWithTouch(touch, withEvent: event)
     }
 
-    private func updateWithTouch(touch: UITouch, ended: Bool) {
+    private func updateWithTouch(touch: UITouch) {
         let point = touch.locationInView(self)
+        let ended = touch.phase == .Ended
         highlighted = ended ? false : pointInside(point, withEvent: nil)
+
+        print(highlighted)
 
         updateUI()
     }
@@ -345,9 +350,9 @@ public class LoadingButton: UIControl {
 
         let image = images[state] ?? images[.Normal]
 
-        if titleLabel.text != text {
+//        if titleLabel.text != text {
             titleLabel.setTextAnimated(text)
-        }
+//        }
         titleLabel.textColor = textColor
 
         imageView.image = image

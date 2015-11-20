@@ -106,13 +106,13 @@
 		D9F6FCF01BF4F8C000A11BD4 /* LoadingButton */ = {
 			isa = PBXGroup;
 			children = (
+				D9F6FD1F1BF4F8E900A11BD4 /* LoadingButton.swift */,
 				D9F6FCF11BF4F8C000A11BD4 /* AppDelegate.swift */,
 				D9F6FCF31BF4F8C000A11BD4 /* ViewController.swift */,
 				D9F6FCF51BF4F8C000A11BD4 /* Main.storyboard */,
 				D9F6FCF81BF4F8C000A11BD4 /* Assets.xcassets */,
 				D9F6FCFA1BF4F8C000A11BD4 /* LaunchScreen.storyboard */,
 				D9F6FCFD1BF4F8C000A11BD4 /* Info.plist */,
-				D9F6FD1F1BF4F8E900A11BD4 /* LoadingButton.swift */,
 			);
 			path = LoadingButton;
 			sourceTree = "<group>";
