@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:OldThings.swift">
+   </FileRef>
+   <FileRef
       location = "group:LoadingButton.xcodeproj">
    </FileRef>
    <FileRef
