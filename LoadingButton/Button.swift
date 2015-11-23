@@ -1,6 +1,6 @@
 //
-//  LoadingButton.swift
-//  LoadingButton
+//  Button.swift
+//  Button
 //
 //  Created by Diogo Tridapalli on 12/11/15.
 //  Copyright © 2015 Diogo Tridapalli. All rights reserved.
