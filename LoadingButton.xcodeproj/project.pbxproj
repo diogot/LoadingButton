@@ -14,7 +14,7 @@
 		D9F6FCFC1BF4F8C000A11BD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9F6FCFA1BF4F8C000A11BD4 /* LaunchScreen.storyboard */; };
 		D9F6FD071BF4F8C000A11BD4 /* LoadingButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F6FD061BF4F8C000A11BD4 /* LoadingButtonTests.swift */; };
 		D9F6FD121BF4F8C100A11BD4 /* LoadingButtonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F6FD111BF4F8C100A11BD4 /* LoadingButtonUITests.swift */; };
-		D9F6FD201BF4F8E900A11BD4 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F6FD1F1BF4F8E900A11BD4 /* LoadingButton.swift */; };
+		D9F6FD201BF4F8E900A11BD4 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F6FD1F1BF4F8E900A11BD4 /* Button.swift */; };
 		FA8AB555029B51058A802829 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27907D641711058D926292D3 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +50,7 @@
 		D9F6FD0D1BF4F8C000A11BD4 /* LoadingButtonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoadingButtonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9F6FD111BF4F8C100A11BD4 /* LoadingButtonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButtonUITests.swift; sourceTree = "<group>"; };
 		D9F6FD131BF4F8C100A11BD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D9F6FD1F1BF4F8E900A11BD4 /* LoadingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		D9F6FD1F1BF4F8E900A11BD4 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DE1DD5BEC9B9B4E43B9E6FF9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E54F103AFAFD821C8BA7A4F0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,7 +106,7 @@
 		D9F6FCF01BF4F8C000A11BD4 /* LoadingButton */ = {
 			isa = PBXGroup;
 			children = (
-				D9F6FD1F1BF4F8E900A11BD4 /* LoadingButton.swift */,
+				D9F6FD1F1BF4F8E900A11BD4 /* Button.swift */,
 				D9F6FCF11BF4F8C000A11BD4 /* AppDelegate.swift */,
 				D9F6FCF31BF4F8C000A11BD4 /* ViewController.swift */,
 				D9F6FCF51BF4F8C000A11BD4 /* Main.storyboard */,
@@ -349,7 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9F6FD201BF4F8E900A11BD4 /* LoadingButton.swift in Sources */,
+				D9F6FD201BF4F8E900A11BD4 /* Button.swift in Sources */,
 				D9F6FCF41BF4F8C000A11BD4 /* ViewController.swift in Sources */,
 				D9F6FCF21BF4F8C000A11BD4 /* AppDelegate.swift in Sources */,
 			);

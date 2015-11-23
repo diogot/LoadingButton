@@ -22,15 +22,6 @@ extension UIColor {
 }
 
 extension UIControlState: Hashable {
-
-    public static var Loading: UIControlState {
-        get {
-            // UIControlStateApplication maks is 0x00FF0000
-            // so anything between 1 << 16 e 1 << 23 should be save
-            return UIControlState(rawValue: 1 << 20);
-        }
-    }
-
     public var hashValue: Int {
         get {
             return Int(rawValue)
@@ -46,19 +37,19 @@ extension NSLayoutFormatOptions {
     }
 }
 
-public class LoadingButton: UIControl {
+public class Button: UIControl {
 
-    private let titleLabel = UILabel()
-    private let imageView = UIImageView()
-    private let spinner = UIActivityIndicatorView()
+    public let titleLabel = UILabel()
+    public let imageView = UIImageView()
     private let backgroundImageView = UIImageView()
 
     private var titles = [UIControlState: String]()
     private var titleColors = [UIControlState: UIColor]()
     private var images = [UIControlState: UIImage]()
     private var backgroundImages = [UIControlState: UIImage]()
+    private let highlightedAlpha: CGFloat = 0.2
+    private let normalAlpha: CGFloat = 1.0
 
-    private var contentViewCenterConstraint: NSLayoutConstraint?
     private var imageViewTitleLabelDistanceConstraint: NSLayoutConstraint?
 
     public override init(frame: CGRect) {
@@ -71,10 +62,10 @@ public class LoadingButton: UIControl {
         setUp()
     }
 
+    // MARK: - SetUp
+
     private func setUp() {
         setUpSubviews()
-
-        titleLabel.text = "Placeholder"
     }
 
     private func setUpSubviews() {
@@ -86,14 +77,10 @@ public class LoadingButton: UIControl {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
 
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.activityIndicatorViewStyle = .White
-        addSubview(spinner)
+        let views = ["contentView": contentView, "background": backgroundImageView]
+        let metrics: [String: AnyObject]? = nil
 
-        let views = ["contentView": contentView, "spinner": spinner, "background": backgroundImageView]
-        let metrics = ["marginMin": 10, "space": 5]
-
-        let horizontalFormat = "H:|-(>=marginMin)-[spinner]-(space)-[contentView]-(>=marginMin)-|"
+        let horizontalFormat = "H:|-(>=0)-[contentView]-(>=0)-|"
 
         addConstraints(
             NSLayoutConstraint.constraintsWithVisualFormat(
@@ -119,7 +106,7 @@ public class LoadingButton: UIControl {
                 multiplier: 1,
                 constant: 0))
 
-        contentViewCenterConstraint =
+        addConstraint(
             NSLayoutConstraint(
                 item: contentView,
                 attribute: .CenterX,
@@ -127,11 +114,7 @@ public class LoadingButton: UIControl {
                 toItem: self,
                 attribute: .CenterX,
                 multiplier: 1,
-                constant: 0)
-        if let constraint = contentViewCenterConstraint {
-            addConstraint(constraint)
-        }
-
+                constant: 0))
 
         // Background
 
@@ -233,7 +216,7 @@ public class LoadingButton: UIControl {
     }
 
     private func setUpTitleLabel() {
-        titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote)
+        titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         titleLabel.textAlignment = .Left
         titleLabel.contentMode = .ScaleToFill
         titleLabel.userInteractionEnabled = false
@@ -248,6 +231,8 @@ public class LoadingButton: UIControl {
         imageView.clipsToBounds = true
         imageView.contentMode = .Center
     }
+
+    // MARK: - Title
 
     public func titleForState(state: UIControlState) -> String? {
         return titles[state]
@@ -277,6 +262,8 @@ public class LoadingButton: UIControl {
         updateUI()
     }
 
+    // MARK: - Image
+
     public func imageForState(state: UIControlState) -> UIImage? {
         return images[state]
     }
@@ -290,6 +277,8 @@ public class LoadingButton: UIControl {
 
         updateUI()
     }
+
+    // MARK: - Background
 
     public func backgroundImageForState(state: UIControlState) -> UIImage? {
         return backgroundImages[state]
@@ -305,33 +294,7 @@ public class LoadingButton: UIControl {
         updateUI()
     }
 
-    override public func sendAction(action: Selector, to target: AnyObject?, forEvent event: UIEvent?) {
-
-//        print("sendAction for event: \(event)")
-        super.sendAction(action, to: target, forEvent: event)
-    }
-
-    override public var state: UIControlState {
-        get {
-            if self.loading {
-                return .Loading
-            } else {
-                return super.state
-            }
-        }
-    }
-
-    override public var enabled: Bool {
-        didSet {
-            updateUI()
-        }
-    }
-
-    public var loading = false {
-        didSet {
-            enabled = !loading
-        }
-    }
+    // MARK: - Touch tracking
 
     override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         let track = super.beginTrackingWithTouch(touch, withEvent: event)
@@ -359,18 +322,16 @@ public class LoadingButton: UIControl {
         // Workaround because touchInside inside is not true on beginTrackingWithTouch
         let insideTouch = pointInside(point, withEvent: nil)
 
-
         highlighted = ended ? false : insideTouch || touchInside
-
-//        print(highlighted)
 
         updateUI()
     }
 
+    // MARK: - UI update
+
     private func updateUI() {
         let defaultState = UIControlState.Normal
         let state = self.state
-        let loading = self.loading
 
         let title: String?
         let titleIsFallback: Bool
@@ -378,7 +339,7 @@ public class LoadingButton: UIControl {
 
         let textColor: UIColor?
         let textColorIsFallback: Bool
-        (textColor, textColorIsFallback) = getValeuIn(titleColors, forState: state, fallbackState: defaultState, fallbackValue: tintColor)
+        (textColor, textColorIsFallback) = getValeuIn(titleColors, forState: state, fallbackState: defaultState, fallbackValue: enabled ? tintColor : UIColor(white: 0.4, alpha: 0.35))
 
         let image: UIImage?
         let imageIsFallback: Bool
@@ -388,19 +349,9 @@ public class LoadingButton: UIControl {
         let backgroundImageIsFallback: Bool
         (backgroundImage, backgroundImageIsFallback) = getValeuIn(backgroundImages, forState: state, fallbackState: defaultState, fallbackValue: nil)
 
-
-        let textAlpha: CGFloat = highlighted && titleIsFallback && textColorIsFallback ? 0.2 : 1.0;
-        let imageAlpha: CGFloat = highlighted && imageIsFallback ? 0.2 : 1.0
-        let backgrounImageAlpha: CGFloat = highlighted && backgroundImageIsFallback ? 0.2 : 1.0;
-
-
-        if loading {
-            spinner.startAnimating()
-            contentViewCenterConstraint?.constant = CGRectGetWidth(spinner.frame) / 2.0
-        } else {
-            spinner.stopAnimating()
-            contentViewCenterConstraint?.constant = 0
-        }
+        let textAlpha: CGFloat = highlighted && titleIsFallback && textColorIsFallback ? highlightedAlpha : normalAlpha
+        let imageAlpha: CGFloat = highlighted && imageIsFallback ? highlightedAlpha : normalAlpha
+        let backgroundImageAlpha: CGFloat = highlighted && backgroundImageIsFallback ? highlightedAlpha : normalAlpha
 
         titleLabel.text = title
         titleLabel.textColor = textColor
@@ -408,7 +359,17 @@ public class LoadingButton: UIControl {
         imageView.image = image
         imageView.alpha = imageAlpha
         backgroundImageView.image = backgroundImage
-        backgroundImageView.alpha = backgrounImageAlpha
+        backgroundImageView.alpha = backgroundImageAlpha
+    }
+
+    override public func tintColorDidChange() {
+        updateUI()
+    }
+
+    override public var enabled: Bool {
+        didSet {
+            updateUI()
+        }
     }
 
     private func getValeuIn<T>(collection: [UIControlState: T], forState state: UIControlState, fallbackState defaultState: UIControlState, fallbackValue: T?) -> (T?, Bool) {

@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let button = LoadingButton(frame: CGRect(x: 30, y: 50, width: 200, height: 50))
+        let button = Button(frame: CGRect(x: 30, y: 50, width: 200, height: 50))
         view.addSubview(button)
 
         let aButton = UIButton(type: .System)
@@ -25,8 +25,6 @@ class ViewController: UIViewController {
 
 //        button.setTitle("Highlighted", forState: .Highlighted)
 //        aButton.setTitle("Highlighted", forState: .Highlighted)
-
-        button.setTitle("Loading", forState: .Loading)
 
 //        button.setTitle("Disabled", forState: .Disabled)
 //        aButton.setTitle("Disabled", forState: .Disabled)
@@ -43,10 +41,10 @@ class ViewController: UIViewController {
 //        button.setImage(UIImage(named: "invariante"), forState: .Highlighted)
 //        aButton.setImage(UIImage(named: "invariante")?.imageWithRenderingMode(.AlwaysOriginal), forState: .Highlighted)
 
-        button.setBackgroundImage(UIColor.redColor().image(), forState: .Normal)
-        aButton.setBackgroundImage(UIColor.redColor().image(), forState: .Normal)
+//        button.setBackgroundImage(UIColor.lightGrayColor().image(), forState: .Normal)
+//        aButton.setBackgroundImage(UIColor.blackColor().image(), forState: .Normal)
 //        button.setBackgroundImage(UIColor.greenColor().image(), forState: .Highlighted)
-//        aButton.setBackgroundImage(UIColor.greenColor().image(), forState: .Highlighted)
+//        aButton.setBackgroundImage(UIColor.lightGrayColor().image(), forState: .Disabled)
 
 //        button.enabled = false
 //        aButton.enabled = false
@@ -58,14 +56,12 @@ class ViewController: UIViewController {
 
 
     func touchUpInside(aSender: AnyObject?) {
-//        if let sender = aSender {
-//            if sender.isKindOfClass(LoadingButton) {
-//                let button = sender as! LoadingButton
-//                button.loading = !button.loading
-//            }
-//        }
-
         print("TouchUpInside \(aSender)")
+
+        let alert = UIAlertController(title: "Test", message: nil, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alert.addAction(action)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
 }
